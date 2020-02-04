@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
-export class Actor {
+export class Language {
    @PrimaryGeneratedColumn('uuid')
    id!: string;
 
    @Column()
-   public name!: string;
+   public language!: string;
 }

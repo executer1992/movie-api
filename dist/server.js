@@ -16,14 +16,15 @@ require("dotenv/config");
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
 const app_1 = __importDefault(require("./app"));
-const ormconfig_1 = require("./config/ormconfig");
+const ormconfig_1 = __importDefault(require("./config/ormconfig"));
 const MoviesController_1 = __importDefault(require("./services/movies/MoviesController"));
 const validateEnv_1 = __importDefault(require("./utils/validateEnv"));
 const CommentsController_1 = __importDefault(require("./services/comments/CommentsController"));
 validateEnv_1.default();
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const connection = yield typeorm_1.createConnection(ormconfig_1.config);
+        const dbConfig = new ormconfig_1.default();
+        const connection = yield typeorm_1.createConnection(dbConfig.config);
         yield connection.runMigrations();
     }
     catch (error) {

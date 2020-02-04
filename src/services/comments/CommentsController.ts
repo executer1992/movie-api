@@ -2,6 +2,7 @@ import { Comment } from './../../entity/Comment';
 import * as express from 'express';
 import { getRepository } from 'typeorm';
 import Controller from '../../interfaces/controller';
+import commentStoreMiddleware from '../../middleware/commentStoreMiddleware';
 
 class CommentsController implements Controller {
    public path = '/comments';
@@ -14,7 +15,7 @@ class CommentsController implements Controller {
 
    private initializeRoutes() {
       this.router.get(this.path, this.getComments);
-      this.router.post(this.path, this.create);
+      this.router.post(this.path, commentStoreMiddleware, this.create);
    }
 
    private getComments = async (request: express.Request, response: express.Response): Promise<void> => {

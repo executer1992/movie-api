@@ -15,10 +15,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const Comment_1 = require("./../../entity/Comment");
 const express = __importStar(require("express"));
 const typeorm_1 = require("typeorm");
+const commentStoreMiddleware_1 = __importDefault(require("../../middleware/commentStoreMiddleware"));
 class CommentsController {
     constructor() {
         this.path = '/comments';
@@ -39,7 +43,7 @@ class CommentsController {
     }
     initializeRoutes() {
         this.router.get(this.path, this.getComments);
-        this.router.post(this.path, this.create);
+        this.router.post(this.path, commentStoreMiddleware_1.default, this.create);
     }
 }
 exports.default = CommentsController;

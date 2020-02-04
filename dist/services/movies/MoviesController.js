@@ -26,20 +26,21 @@ const express = __importStar(require("express"));
 const typeorm_1 = require("typeorm");
 const DuplicateMovieException_1 = __importDefault(require("../../exceptions/DuplicateMovieException"));
 const MovieNotFoundException_1 = __importDefault(require("../../exceptions/MovieNotFoundException"));
+const movieStoreMiddleware_1 = __importDefault(require("../../middleware/movieStoreMiddleware"));
 class MoviesController {
     constructor() {
         this.path = '/movies';
         this.router = express.Router();
         this.movieRepository = typeorm_1.getRepository(Movie_1.Movie);
         this.getMovies = (request, response) => __awaiter(this, void 0, void 0, function* () {
-            const movies = yield this.movieRepository.find();
+            const movies = yield this.movieRepository.find({ relations: ['actors', 'writer', 'country', 'genre', 'language'] });
             response.status(200).send(movies);
         });
         this.create = (request, response, next) => __awaiter(this, void 0, void 0, function* () {
             const title = request.body.title;
             const movie = yield this.movieRepository.findOne({
                 where: { title },
-                relations: ['actors', 'writer', 'country']
+                relations: ['actors', 'writer', 'country', 'genre', 'language']
             });
             if (movie) {
                 next(new DuplicateMovieException_1.default(title));
@@ -60,7 +61,7 @@ class MoviesController {
     }
     initializeRoutes() {
         this.router.get(this.path, this.getMovies);
-        this.router.post(this.path, this.create);
+        this.router.post(this.path, movieStoreMiddleware_1.default, this.create);
     }
 }
 exports.default = MoviesController;

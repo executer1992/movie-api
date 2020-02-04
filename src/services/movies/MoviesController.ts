@@ -7,6 +7,7 @@ import Controller from '../../interfaces/controller';
 import DuplicateMovieException from '../../exceptions/DuplicateMovieException';
 import MovieNotFoundException from '../../exceptions/MovieNotFoundException';
 import MovieResponse from '../../interfaces/movieResponse';
+import movieStoreMiddleware from '../../middleware/movieStoreMiddleware';
 
 class MoviesController implements Controller {
    public path = '/movies';
@@ -19,11 +20,11 @@ class MoviesController implements Controller {
 
    private initializeRoutes() {
       this.router.get(this.path, this.getMovies);
-      this.router.post(this.path, this.create);
+      this.router.post(this.path, movieStoreMiddleware, this.create);
    }
 
    private getMovies = async (request: express.Request, response: express.Response): Promise<void> => {
-      const movies: Movie[] = await this.movieRepository.find();
+      const movies: Movie[] = await this.movieRepository.find({ relations: ['actors', 'writer', 'country', 'genre', 'language']});
       response.status(200).send(movies);
    };
 
@@ -35,7 +36,7 @@ class MoviesController implements Controller {
       const title = request.body.title;
       const movie = await this.movieRepository.findOne({
          where: { title },
-         relations: ['actors', 'writer', 'country']
+         relations: ['actors', 'writer', 'country', 'genre', 'language']
       });
       if (movie) {
          next(new DuplicateMovieException(title));

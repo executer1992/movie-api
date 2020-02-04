@@ -9,6 +9,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const Genre_1 = require("./Genre");
+const Language_1 = require("./Language");
 const Ratings_1 = require("./Ratings");
 const Country_1 = require("./Country");
 const Actor_1 = require("./Actor");
@@ -41,8 +43,9 @@ __decorate([
     __metadata("design:type", String)
 ], Movie.prototype, "runtime", void 0);
 __decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
+    typeorm_1.ManyToMany(() => Genre_1.Genre, { cascade: true }),
+    typeorm_1.JoinTable(),
+    __metadata("design:type", Array)
 ], Movie.prototype, "genre", void 0);
 __decorate([
     typeorm_1.Column(),
@@ -63,8 +66,9 @@ __decorate([
     __metadata("design:type", String)
 ], Movie.prototype, "plot", void 0);
 __decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
+    typeorm_1.ManyToMany(() => Language_1.Language, { cascade: true }),
+    typeorm_1.JoinTable({ 'name': 'languages' }),
+    __metadata("design:type", Array)
 ], Movie.prototype, "language", void 0);
 __decorate([
     typeorm_1.ManyToMany(() => Country_1.Country, { cascade: true }),

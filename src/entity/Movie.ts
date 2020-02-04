@@ -1,3 +1,5 @@
+import { Genre } from './Genre';
+import { Language } from './Language';
 import { Ratings } from './Ratings';
 import { Country } from './Country';
 import { Actor } from './Actor';
@@ -25,8 +27,9 @@ export class Movie {
    @Column()
    public runtime!: string;
 
-   @Column()
-   public genre!: string;
+   @ManyToMany(() => Genre, { cascade: true })
+   @JoinTable()
+   public genre!: Genre[];
 
    @Column()
    public director!: string;
@@ -42,8 +45,9 @@ export class Movie {
    @Column()
    public plot!: string;
 
-   @Column()
-   public language!: string;
+   @ManyToMany(() => Language, {cascade: true})
+   @JoinTable({'name': 'languages'})
+   public language!: Language[];
 
    @ManyToMany(() => Country, { cascade: true })
    @JoinTable()

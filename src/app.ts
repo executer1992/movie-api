@@ -4,6 +4,7 @@ import Controller from './interfaces/controller';
 import errorMiddleware from './middleware/errorMiddleware';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDoc from './config/swagger.json';
+import movieStoreMiddleware from './middleware/movieStoreMiddleware';
 
 class App {
    private readonly app: express.Application;
