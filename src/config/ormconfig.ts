@@ -8,6 +8,9 @@ export const config: ConnectionOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   synchronize: true,
+  extra: {
+    ssl: true
+  },
   entities: [
       'dist/entity/**/*.js',
   ],
