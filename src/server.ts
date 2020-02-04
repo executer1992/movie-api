@@ -9,25 +9,15 @@ import CommentsController from './services/comments/CommentsController';
 
 validateEnv();
 
-
 (async () => {
-  let retries: number = 5;
-  while (retries) {
-  try {
-    const connection = await createConnection(config);
-    await connection.runMigrations();
-    break;
-  } catch (error) {
-    console.log('Error while connecting to the database', error);
-    retries -= 1;
-    return error;
-      }
-    }
-  const app = new App(
-    [
-      new MoviesController(),
-      new CommentsController()
-    ],
-  );
-  app.listen();
+   try {
+      const connection = await createConnection(config);
+      await connection.runMigrations();
+   } catch (error) {
+      console.log('Error while connecting to the database', error);
+      return error;
+   }
+
+   const app = new App([new MoviesController(), new CommentsController()]);
+   app.listen();
 })();

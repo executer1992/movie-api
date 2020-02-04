@@ -1,16 +1,10 @@
-import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-  } from "typeorm";
-  
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
 @Entity()
 export class Country {
+   @PrimaryGeneratedColumn('uuid')
+   id!: string;
 
-    @PrimaryGeneratedColumn("uuid")
-    id!: string;
-
-    @Column()
-    public name!: string;
-
+   @Column()
+   public name!: string;
 }

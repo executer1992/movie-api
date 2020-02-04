@@ -6,40 +6,40 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDoc from './config/swagger.json';
 
 class App {
-  private app: express.Application;
+   private readonly app: express.Application;
 
-  constructor(controllers: Controller[]) {
-    this.app = express();
+   constructor(controllers: Controller[]) {
+      this.app = express();
 
-    this.initializeMiddlewares();
-    this.initializeControllers(controllers);
-    this.initializeErrorHandling();
-  }
+      this.initializeMiddlewares();
+      this.initializeControllers(controllers);
+      this.initializeErrorHandling();
+   }
 
-  public listen() {
-    this.app.listen(process.env.PORT || 4000, () => {
-      console.log(`App listening on the port ${process.env.PORT}`);
-    });
-  }
+   public listen() {
+      this.app.listen(process.env.PORT || 4000, () => {
+         console.log(`App listening on the port ${process.env.PORT}`);
+      });
+   }
 
-  public getServer() {
-    return this.app;
-  }
+   public getServer() {
+      return this.app;
+   }
 
-  private initializeMiddlewares() {
-    this.app.use(bodyParser.json());
-  }
+   private initializeMiddlewares() {
+      this.app.use(bodyParser.json());
+   }
 
-  private initializeErrorHandling() {
-    this.app.use(errorMiddleware);
-  }
+   private initializeErrorHandling() {
+      this.app.use(errorMiddleware);
+   }
 
-  private initializeControllers(controllers: Controller[]) {
-    controllers.forEach((controller) => {
-      this.app.use('/api/v1/', controller.router);
-    });
-    this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
-  }
+   private initializeControllers(controllers: Controller[]) {
+      controllers.forEach(controller => {
+         this.app.use('/api/v1/', controller.router);
+      });
+      this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+   }
 }
 
 export default App;
