@@ -5,11 +5,11 @@ import {
   function validateEnv() {
     cleanEnv(process.env, {
       MOVIE_API: str(),
-      DB_HOST: str(),
-      DB_PORT: port(),
-      DB_USER: str(),
-      DB_PASSWORD: str(),
-      DB_DATABASE: str(),
+      POSTGRES_HOST: str(),
+      POSTGRES_PORT: port(),
+      POSTGRES_USER: str(),
+      POSTGRES_PASSWORD: str(),
+      POSTGRES_DB: str(),
       PORT: port(),
     });
   }
