@@ -1,0 +1,1 @@
+web: tsc-watch --onSuccess "node ./dist/server.js"
