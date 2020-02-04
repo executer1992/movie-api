@@ -19,3 +19,6 @@ Application is using postgres and needs two databases for testing and developmen
 In order to connect we need to establish postgres connection
 
 I setup docker but had problem with running it localy on windows so could no test it.
+
+To run test:
+#npm run test
